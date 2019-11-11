@@ -19,9 +19,10 @@ final class PhotoSection extends Section {
     private final String title;
     private final List<Photo> list;
     private final Context context;
+    private final ClickListener clickListener;
 
     PhotoSection(@NonNull final String title, @NonNull final List<Photo> list,
-                 @NonNull final Context context) {
+                 @NonNull final Context context, @NonNull final ClickListener clickListener) {
         super(SectionParameters.builder()
                 .itemResourceId(R.layout.photo_section_item)
                 .headerResourceId(R.layout.photo_section_header)
@@ -30,6 +31,7 @@ final class PhotoSection extends Section {
         this.title = title;
         this.list = list;
         this.context = context;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -54,7 +56,7 @@ final class PhotoSection extends Section {
                 .into(itemHolder.imageView);
 
         itemHolder.rootView.setOnClickListener(v ->
-                ((ClickListener)context).onItemRootViewClicked(title, itemHolder.getAdapterPosition())
+                clickListener.onItemRootViewClicked(title, itemHolder.getAdapterPosition())
         );
     }
 
@@ -69,7 +71,7 @@ final class PhotoSection extends Section {
 
         headerHolder.tvTitle.setText(title);
         headerHolder.btnMore.setOnClickListener(v ->
-                ((ClickListener)context).onHeaderRootViewClicked(title, this)
+                clickListener.onHeaderRootViewClicked(title, this)
         );
     }
 
