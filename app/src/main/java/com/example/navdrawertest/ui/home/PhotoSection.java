@@ -1,10 +1,12 @@
 package com.example.navdrawertest.ui.home;
 
+import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.navdrawertest.R;
 
 import java.util.List;
@@ -16,10 +18,10 @@ final class PhotoSection extends Section {
 
     private final String title;
     private final List<Photo> list;
-    private final ClickListener clickListener;
+    private final Context context;
 
     PhotoSection(@NonNull final String title, @NonNull final List<Photo> list,
-                 @NonNull final ClickListener clickListener) {
+                 @NonNull final Context context) {
         super(SectionParameters.builder()
                 .itemResourceId(R.layout.photo_section_item)
                 .headerResourceId(R.layout.photo_section_header)
@@ -27,7 +29,7 @@ final class PhotoSection extends Section {
 
         this.title = title;
         this.list = list;
-        this.clickListener = clickListener;
+        this.context = context;
     }
 
     @Override
@@ -46,11 +48,13 @@ final class PhotoSection extends Section {
 
         final Photo photo = list.get(position);
 
-        // itemHolder.tvItem.setText(photo.name);
-        // itemHolder.tvSubItem.setText(photo.category);
+        Glide.with(context)
+                .asBitmap()
+                .load(photo.getUrl())
+                .into(itemHolder.imageView);
 
         itemHolder.rootView.setOnClickListener(v ->
-                clickListener.onItemRootViewClicked(title, itemHolder.getAdapterPosition())
+                ((ClickListener)context).onItemRootViewClicked(title, itemHolder.getAdapterPosition())
         );
     }
 
@@ -64,9 +68,8 @@ final class PhotoSection extends Section {
         final HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
         headerHolder.tvTitle.setText(title);
-
         headerHolder.btnMore.setOnClickListener(v ->
-                clickListener.onHeaderRootViewClicked(title, this)
+                ((ClickListener)context).onHeaderRootViewClicked(title, this)
         );
     }
 

@@ -40,17 +40,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        /*
-        InputStream fis = null;
-        try {
-            fis = hostActivity.getContentResolver()
-                    .openInputStream(Uri.parse(imageUrlList.get(position)));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Bitmap mBitmap = BitmapFactory.decodeStream(fis, null, null);
-        holder.mImageView.setImageBitmap(mBitmap);
-         */
+
         Glide.with(hostActivity)
                 .asBitmap()
                 .load(imageUrlList.get(position))

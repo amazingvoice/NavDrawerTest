@@ -1,13 +1,17 @@
 package com.example.navdrawertest.ui.home;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.navdrawertest.R;
+
 final class ItemViewHolder extends RecyclerView.ViewHolder {
 
     final View rootView;
+    final ImageView imageView;
     // final TextView tvItem;
     // final TextView tvSubItem;
 
@@ -15,6 +19,7 @@ final class ItemViewHolder extends RecyclerView.ViewHolder {
         super(view);
 
         rootView = view;
+        imageView = view.findViewById(R.id.imgItem);
         // tvItem = view.findViewById(R.id.tvItem);
         // tvSubItem = view.findViewById(R.id.tvSubItem);
     }

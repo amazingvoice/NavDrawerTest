@@ -2,13 +2,15 @@ package com.example.navdrawertest.ui.home;
 
 import androidx.annotation.NonNull;
 
-public class Photo {
+class Photo {
 
-    final String name;
-    final String category;
+    private final String url;
 
-    Photo(@NonNull final String name, @NonNull final String category) {
-        this.name = name;
-        this.category = category;
+    Photo(@NonNull final String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

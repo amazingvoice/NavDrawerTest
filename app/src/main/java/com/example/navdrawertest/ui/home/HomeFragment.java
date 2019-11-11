@@ -1,6 +1,9 @@
 package com.example.navdrawertest.ui.home;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,28 +21,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.navdrawertest.R;
 import com.example.navdrawertest.ui.gallery.DataAdapter;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 public class HomeFragment extends Fragment implements PhotoSection.ClickListener {
 
+    private static final String TAG = "HomeFragment";
     private SectionedRecyclerViewAdapter sectionedAdapter;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         sectionedAdapter = new SectionedRecyclerViewAdapter();
 
-        final LoadPhotos loadMoviesUseCase = new LoadPhotos();
-        // TODO: implement method execute() to get the image list for a specific month
-        sectionedAdapter.addSection(new PhotoSection("October",
-                loadMoviesUseCase.execute(), this));
-        sectionedAdapter.addSection(new PhotoSection("November",
-                loadMoviesUseCase.execute(), this));
+        final LoadPhotos loadPhotos = new LoadPhotos(getActivity());
+        for(String album : loadPhotos.getAlbumList()) {
+            sectionedAdapter.addSection(
+                    new PhotoSection(album, loadPhotos.execute(album), getContext()));
+        }
 
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
 
@@ -47,7 +58,8 @@ public class HomeFragment extends Fragment implements PhotoSection.ClickListener
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(final int position) {
-                if (sectionedAdapter.getSectionItemViewType(position) == SectionedRecyclerViewAdapter.VIEW_TYPE_HEADER) {
+                if (sectionedAdapter.getSectionItemViewType(position)
+                        == SectionedRecyclerViewAdapter.VIEW_TYPE_HEADER) {
                     return 2;
                 }
                 return 1;
@@ -55,6 +67,7 @@ public class HomeFragment extends Fragment implements PhotoSection.ClickListener
         });
         recyclerView.setLayoutManager(glm);
         recyclerView.setAdapter(sectionedAdapter);
+
 
         return view;
     }
@@ -83,4 +96,5 @@ public class HomeFragment extends Fragment implements PhotoSection.ClickListener
                 Toast.LENGTH_SHORT
         ).show();
     }
+
 }
