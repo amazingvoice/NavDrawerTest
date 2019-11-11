@@ -59,6 +59,7 @@ public class GalleryFragment extends Fragment {
                     .buildUpon().appendPath(String.valueOf(id)).build().toString();
             imageList.add(uri);
         }
+        cursor.close();
         return imageList;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.navdrawertest.R;
 
 import java.io.FileNotFoundException;
@@ -39,7 +40,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // TODO: import bitmaps here
+        /*
         InputStream fis = null;
         try {
             fis = hostActivity.getContentResolver()
@@ -49,6 +50,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         }
         Bitmap mBitmap = BitmapFactory.decodeStream(fis, null, null);
         holder.mImageView.setImageBitmap(mBitmap);
+         */
+        Glide.with(hostActivity)
+                .asBitmap()
+                .load(imageUrlList.get(position))
+                .into(holder.mImageView);
     }
 
     @Override
